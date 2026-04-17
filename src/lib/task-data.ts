@@ -2,9 +2,13 @@ import { SITE_CONFIG, type TaskKey } from "./site-config";
 import { fetchSiteFeed, type SiteFeed, type SitePost } from "./site-connector";
 import { getMockPostsForTask } from "./mock-posts";
 import { isValidCategory } from "./categories";
+import { getHomeEditorialMockPosts } from "./home-editorial-mock";
 
 const getTaskContentType = (task: TaskKey) =>
   SITE_CONFIG.tasks.find((item) => item.key === task)?.contentType || task;
+
+const getFallbackMockPosts = (task: TaskKey) =>
+  task === "mediaDistribution" ? getHomeEditorialMockPosts() : getMockPostsForTask(task);
 
 const getPostType = (post: SitePost) => {
   const content = post.content && typeof post.content === "object" ? post.content : {};
@@ -30,7 +34,10 @@ export const fetchTaskPosts = async (
   limit = 8,
   options?: { allowMockFallback?: boolean; fresh?: boolean; revalidate?: number }
 ) => {
-  const allowMockFallback = options?.allowMockFallback ?? process.env.NEXT_PUBLIC_USE_MOCK_CONTENT === "true";
+  const allowMockFallback =
+    options?.allowMockFallback ??
+    (task === "mediaDistribution" ||
+      process.env.NEXT_PUBLIC_USE_MOCK_CONTENT === "true");
   const type = getTaskContentType(task);
   const effectiveRevalidate =
     options?.fresh === true ? undefined : (options?.revalidate ?? 120);
@@ -58,25 +65,27 @@ export const fetchTaskPosts = async (
     if (cachedPosts.length) return cachedPosts;
 
     if (options?.fresh) {
-      return allowMockFallback ? getMockPostsForTask(task).slice(0, limit) : [];
+      return allowMockFallback ? getFallbackMockPosts(task).slice(0, limit) : [];
     }
 
     if (!cachedFeed) {
-      return allowMockFallback ? getMockPostsForTask(task).slice(0, limit) : [];
+      return allowMockFallback ? getFallbackMockPosts(task).slice(0, limit) : [];
     }
 
     const freshFeed = await fetchSiteFeed(limit * 6, { fresh: true });
     const filtered = pickTaskPosts(freshFeed);
     return filtered.length || !allowMockFallback
       ? filtered
-      : getMockPostsForTask(task).slice(0, limit);
+      : getFallbackMockPosts(task).slice(0, limit);
   } catch {
-    return allowMockFallback ? getMockPostsForTask(task).slice(0, limit) : [];
+    return allowMockFallback ? getFallbackMockPosts(task).slice(0, limit) : [];
   }
 };
 
 export const fetchTaskPostBySlug = async (task: TaskKey, slug: string) => {
-  const allowMockFallback = process.env.NEXT_PUBLIC_USE_MOCK_CONTENT === "true";
+  const allowMockFallback =
+    task === "mediaDistribution" ||
+    process.env.NEXT_PUBLIC_USE_MOCK_CONTENT === "true";
   const type = getTaskContentType(task);
   const resolveFromFeed = (feed: SiteFeed<SitePost> | null) =>
     feed?.posts.find((post) => post.slug === slug && getPostType(post) === type) || null;
@@ -88,7 +97,7 @@ export const fetchTaskPostBySlug = async (task: TaskKey, slug: string) => {
 
     if (!cachedFeed) {
       return allowMockFallback
-        ? getMockPostsForTask(task).find((post) => post.slug === slug) || null
+        ? getFallbackMockPosts(task).find((post) => post.slug === slug) || null
         : null;
     }
 
@@ -100,7 +109,7 @@ export const fetchTaskPostBySlug = async (task: TaskKey, slug: string) => {
   }
 
   return allowMockFallback
-    ? getMockPostsForTask(task).find((post) => post.slug === slug) || null
+    ? getFallbackMockPosts(task).find((post) => post.slug === slug) || null
     : null;
 };
 

@@ -24,8 +24,6 @@ export async function TaskDetailPageOverride({ slug }: { task: TaskKey; slug: st
           <div className="mt-5 flex items-center justify-center gap-3 text-sm text-neutral-300">
             <Link href="/">Home</Link>
             <span>›</span>
-            <Link href="/updates">Archive</Link>
-            <span>›</span>
             <span className="truncate">{post.title}</span>
           </div>
         </div>

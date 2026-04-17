@@ -10,9 +10,6 @@ const utilityLinks = [
   { label: 'About Us', href: '/about' },
   { label: 'Terms of Service', href: '/terms' },
   { label: 'Privacy Policy', href: '/privacy' },
-  { label: 'Contribute Us', href: '/register' },
-  { label: 'Write for Us', href: '/register' },
-  { label: 'Author Account', href: '/login' },
   { label: 'Contact Us', href: '/contact' },
 ]
 
@@ -34,7 +31,6 @@ export function NavbarOverride() {
       <div className="border-t border-neutral-200">
         <div className="mx-auto flex max-w-6xl items-center justify-center gap-6 px-4 py-4 text-sm uppercase tracking-[0.08em] sm:px-6">
           <Link href="/" className="text-[#4a90ff]">Home</Link>
-          <Link href="/updates" className="hover:text-black">Archive</Link>
           <Link href="/contact" className="hover:text-black">Contact</Link>
           <Link href="/search" className="hover:text-black"><Search className="h-4 w-4" /></Link>
         </div>
