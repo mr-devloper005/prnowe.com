@@ -10,7 +10,20 @@ import { buildSiteMetadata } from '@/lib/seo'
 import { getFactoryState } from '@/design/factory/get-factory-state'
 
 export async function generateMetadata(): Promise<Metadata> {
-  return buildSiteMetadata()
+  const base = await buildSiteMetadata()
+  return {
+    ...base,
+    icons: {
+      icon: [
+        { url: '/favicon.ico', sizes: 'any' },
+        { url: '/favicon.png', type: 'image/png' },
+      ],
+      apple: [
+        { url: '/apple-icon.png', type: 'image/png' },
+      ],
+      shortcut: '/favicon.ico',
+    },
+  }
 }
 
 export default function RootLayout({ children }: { children: ReactNode }) {
