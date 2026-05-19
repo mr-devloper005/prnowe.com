@@ -321,7 +321,6 @@ function EditorialHome({
 
   const lead = posts[0]
   const spotlightPosts = posts.slice(1, 4)
-  const pastCoverage = posts.slice(4, 10)
   const deckPosts = posts.slice(10, 16)
   const featuredSecondary = posts[1]
 
@@ -334,7 +333,7 @@ function EditorialHome({
     <main className="bg-[#fafafa] text-[#1a1a1a]">
       <div className="mx-auto min-h-screen max-w-[1400px] border-x border-[#0f172a]/8 bg-white shadow-[0_0_0_1px_rgba(15,23,42,0.04)]">
         <section className="px-5 py-12 sm:px-8 sm:py-16 lg:px-12 lg:py-20">
-          <div className="grid gap-12 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)_minmax(0,0.95fr)] lg:gap-10 lg:items-start">
+          <div className="grid gap-12 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] lg:gap-10 lg:items-start">
             {/* Left: lead story — headings + highlighted body */}
             <div className="order-1 max-w-xl lg:pt-2">
               <p className="font-display text-[2.15rem] font-medium leading-[1.05] tracking-[-0.04em] sm:text-5xl">
@@ -409,41 +408,6 @@ function EditorialHome({
               )}
             </div>
 
-            {/* Right: past coverage — text only */}
-            <aside className="order-2 lg:order-3 lg:border-l lg:border-black/10 lg:pl-10">
-              <h2 className="font-display text-2xl font-semibold tracking-[-0.02em] text-[#111]">
-                <span className="bg-[linear-gradient(transparent_65%,rgba(29,78,216,0.18)_0)]">Past coverage</span>
-              </h2>
-              <p className="mt-4 text-sm leading-relaxed text-[#555]">
-                Earlier dispatches from {SITE_CONFIG.name}.{' '}
-                <Link href={primaryTask?.route || '/updates'} className="font-medium text-primary underline underline-offset-2">
-                  View all
-                </Link>
-                .
-              </p>
-
-              <ul className="mt-8 space-y-5">
-                {pastCoverage.length ? (
-                  pastCoverage.map((post) => (
-                    <li key={post.id}>
-                      <Link href={postHref(post)} className="group block">
-                        <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#94a3b8]">
-                          {getPostCategoryLabel(post)}
-                        </p>
-                        <span className="font-display mt-1 block text-[1.05rem] font-semibold leading-snug text-[#0f172a] group-hover:text-primary">
-                          {post.title}
-                        </span>
-                        {post.summary ? (
-                          <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-[#475569]">{post.summary}</p>
-                        ) : null}
-                      </Link>
-                    </li>
-                  ))
-                ) : (
-                  <li className="text-sm text-[#666]">New stories will appear here once published.</li>
-                )}
-              </ul>
-            </aside>
           </div>
 
           {/* Heavy grid — more dummy / real cards, content-forward */}
@@ -660,7 +624,10 @@ export default async function HomePage() {
   const mediaDistributionPosts =
     taskFeed.find(({ task }) => task.key === 'mediaDistribution')?.posts || []
   const editorialRaw = articlePosts.length ? articlePosts : mediaDistributionPosts
-  const editorialPosts = mergeEditorialPostsForHome(editorialRaw, getHomeEditorialMockPosts(), 16)
+  const editorialPosts =
+    editorialRaw.length > 0
+      ? editorialRaw.slice(0, 16)
+      : mergeEditorialPostsForHome(editorialRaw, getHomeEditorialMockPosts(), 16)
   const imagePosts = taskFeed.find(({ task }) => task.key === 'image')?.posts || []
   const profilePosts = taskFeed.find(({ task }) => task.key === 'profile')?.posts || []
   const bookmarkPosts = taskFeed.find(({ task }) => task.key === 'sbm')?.posts || []

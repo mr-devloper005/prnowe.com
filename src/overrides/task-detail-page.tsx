@@ -47,30 +47,21 @@ export async function TaskDetailPageOverride({ slug }: { task: TaskKey; slug: st
   return (
     <div className="min-h-screen bg-white text-slate-900">
       <NavbarShell />
-
-      {/* ── Hero header ── */}
-      <div
-        className="relative overflow-hidden py-16"
-        style={{ background: 'linear-gradient(135deg, #640D5F 0%, #8B1A6B 30%, #D91656 65%, #EB5B00 100%)' }}
-      >
-        {/* grid overlay */}
-        <div
-          className="pointer-events-none absolute inset-0 opacity-10"
-          style={{
-            backgroundImage:
-              'linear-gradient(rgba(255,255,255,0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.15) 1px, transparent 1px)',
-            backgroundSize: '50px 50px',
-          }}
-        />
-
-        <div className="relative mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-          {/* Breadcrumb */}
-          <div className="flex flex-wrap items-center gap-2 text-sm text-white/60">
-            <Link href="/" className="hover:text-white transition-colors">Home</Link>
-            <span>/</span>
-            <Link href="/updates" className="hover:text-white transition-colors">Press Releases</Link>
-            <span>/</span>
-            <span className="truncate text-white/80 max-w-xs">{post.title}</span>
+      <section className="bg-neutral-900 py-14 text-white">
+        <div className="mx-auto max-w-6xl px-4 text-center sm:px-6">
+          <h1 className="mx-auto max-w-5xl text-4xl font-black uppercase leading-tight tracking-[0.02em] sm:text-5xl">{post.title}</h1>
+          <div className="mt-5 flex items-center justify-center gap-3 text-sm text-neutral-300">
+            <Link href="/">Home</Link>
+            <span>›</span>
+            <span className="truncate">{post.title}</span>
+          </div>
+        </div>
+      </section>
+      <main className="mx-auto grid max-w-6xl gap-12 px-4 py-10 sm:px-6 lg:grid-cols-[minmax(0,1fr)_280px]">
+        <article>
+          <div className="border border-[#f0dfd7] bg-[#faece7] px-6 py-5 text-sm text-neutral-600">
+            <span className="mr-3 inline-block bg-neutral-800 px-3 py-1 text-white">{new Date(post.publishedAt || Date.now()).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
+            <span>by {post.authorName || 'Editorial Desk'}</span>
           </div>
 
           {/* Category badge */}
