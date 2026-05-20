@@ -7,6 +7,39 @@ import { CATEGORY_OPTIONS, normalizeCategory } from '@/lib/categories'
 export const FOOTER_OVERRIDE_ENABLED = true
 
 
+const socialLinks = [
+  { label: 'Twitter', href: 'https://twitter.com', icon: Twitter },
+  { label: 'LinkedIn', href: 'https://linkedin.com', icon: Linkedin },
+  { label: 'Facebook', href: 'https://facebook.com', icon: Facebook },
+]
+
+const footerSections = [
+  {
+    heading: 'Company',
+    links: [
+      { label: 'About', href: '/about' },
+      { label: 'Contact', href: '/contact' },
+      { label: 'Press', href: '/press-release' },
+    ],
+  },
+  {
+    heading: 'Resources',
+    links: [
+      { label: 'Latest News', href: '/press-release' },
+      { label: 'Pricing', href: '/pricing' },
+      { label: 'Search', href: '/search' },
+    ],
+  },
+  {
+    heading: 'Legal',
+    links: [
+      { label: 'Privacy', href: '/privacy' },
+      { label: 'Terms', href: '/terms' },
+      { label: 'Cookies', href: '/cookies' },
+    ],
+  },
+]
+
 const getCategoryLabel = (value: string) => {
   const normalized = normalizeCategory(value)
   return CATEGORY_OPTIONS.find((item) => item.slug === normalized)?.name || value
