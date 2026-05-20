@@ -86,7 +86,7 @@ export function FooterOverride() {
               <img
                 src="/logo.png"
                 alt="PRNowe"
-                className="h-10 w-auto object-contain brightness-0 invert"
+                className="h-10 w-auto object-contain"
               />
             </Link>
             <p className="mt-4 max-w-xs text-sm leading-7 text-slate-400">
