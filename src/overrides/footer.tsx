@@ -1,50 +1,35 @@
 import Link from 'next/link'
 import { Twitter, Linkedin, Facebook } from 'lucide-react'
 import { SITE_CONFIG } from '@/lib/site-config'
+import { fetchTaskPosts } from '@/lib/task-data'
+import { CATEGORY_OPTIONS, normalizeCategory } from '@/lib/categories'
 
 export const FOOTER_OVERRIDE_ENABLED = true
 
-const footerSections = [
-  {
-    heading: 'Press Release Distribution',
-    links: [
-      { label: 'Submit Press Release', href: '/register' },
-      { label: 'Browse Press Releases', href: '/updates' },
-      { label: 'Distribution Network', href: '/about' },
-    ],
-  },
-  {
-    heading: 'Resources',
-    links: [
-      { label: 'For Journalists', href: '/updates' },
-      { label: 'RSS News Feeds', href: '/updates' },
-      { label: 'Help Center', href: '/help' },
-    ],
-  },
-  {
-    heading: 'Company',
-    links: [
-      { label: 'About PRNowe', href: '/about' },
-      { label: 'Contact Us', href: '/contact' },
-    ],
-  },
-  {
-    heading: 'Legal',
-    links: [
-      { label: 'Privacy Policy', href: '/privacy' },
-      { label: 'Terms of Service', href: '/terms' },
-      { label: 'Cookie Policy', href: '/cookies' },
-    ],
-  },
-]
 
-const socialLinks = [
-  { label: 'Twitter', href: 'https://twitter.com', icon: Twitter },
-  { label: 'LinkedIn', href: 'https://linkedin.com', icon: Linkedin },
-  { label: 'Facebook', href: 'https://facebook.com', icon: Facebook },
-]
+const getCategoryLabel = (value: string) => {
+  const normalized = normalizeCategory(value)
+  return CATEGORY_OPTIONS.find((item) => item.slug === normalized)?.name || value
+}
 
-export function FooterOverride() {
+
+export async function FooterOverride() {
+  const posts = await fetchTaskPosts('mediaDistribution', 200, { allowMockFallback: false })
+  const categories = Array.from(
+    new Map(
+      posts
+        .map((post) => {
+          const content = post.content && typeof post.content === 'object' ? (post.content as Record<string, unknown>) : {}
+          const raw = typeof content.category === 'string' ? content.category.trim() : ''
+          if (!raw) return null
+          const slug = normalizeCategory(raw)
+          return { slug, name: getCategoryLabel(raw) }
+        })
+        .filter((item): item is { slug: string; name: string } => Boolean(item))
+        .map((item) => [item.slug, item])
+    ).values()
+  ).slice(0, 8)
+
   return (
     <footer className="border-t border-slate-200 bg-[#0f0a1a] text-white">
       {/* Top CTA strip */}
@@ -142,6 +127,24 @@ export function FooterOverride() {
             <Link href="/cookies" className="hover:text-white transition-colors">Cookies</Link>
           </div>
         </div>
+
+        {categories.length ? (
+          <div className="mt-8 border-t border-current/10 pt-6">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] opacity-70">Categories</p>
+            <div className="mt-3 flex flex-wrap gap-3 text-sm">
+              {categories.map((category) => (
+                <Link
+                  key={category.slug}
+                  href={`/updates?category=${category.slug}`}
+                  className="opacity-80 underline-offset-4 transition hover:opacity-100 hover:underline"
+                >
+                  {category.name}
+                </Link>
+              ))}
+            </div>
+          </div>
+        ) : null}
+
       </div>
     </footer>
   )
