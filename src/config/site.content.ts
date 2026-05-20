@@ -2,90 +2,98 @@ import type { TaskKey } from '@/lib/site-config'
 
 export const siteContent = {
   navbar: {
-    tagline: 'Independent news desk',
+    tagline: 'Press Release Distribution',
   },
   footer: {
-    tagline: 'Simple publishing for press-style updates',
+    tagline: 'Reach journalists, newsrooms & media outlets worldwide',
   },
   hero: {
-    badge: 'Latest updates',
-    title: ['Clear publishing, simple reading, no extra noise.'],
+    badge: 'Trusted by 10,000+ PR professionals',
+    title: ['Distribute Press Releases That Get Picked Up'],
     description:
-      'A minimal article-style publishing template built for regular updates, announcements, and media distribution posts.',
+      'Reach thousands of journalists, editors, and media outlets with one submission. PRNowe puts your story in front of the right people — fast.',
     primaryCta: {
-      label: 'Browse latest posts',
+      label: 'Submit a Press Release',
       href: '/updates',
     },
     secondaryCta: {
-      label: 'Contact us',
+      label: 'Contact Us',
       href: '/contact',
     },
-    searchPlaceholder: 'Search posts',
+    searchPlaceholder: 'Search press releases',
     focusLabel: 'Latest',
-    featureCardBadge: 'editor note',
-    featureCardTitle: 'Recent updates appear directly on the homepage.',
+    featureCardBadge: 'Breaking News',
+    featureCardTitle: 'Your story, amplified across 5,000+ media outlets.',
     featureCardDescription:
-      'The homepage works as a clean front page so new posts stay visible without decorative sections getting in the way.',
+      'From regional newsrooms to national publications, PRNowe ensures your press release lands where it matters most.',
   },
   home: {
     metadata: {
-      title: 'Latest updates and newsroom posts',
+      title: 'PRNowe — Press Release Distribution & Media Outreach',
       description:
-        'Read the latest updates, announcements, and stories through a simple archive-first publishing experience.',
-      openGraphTitle: 'Latest updates and newsroom posts',
+        'Distribute press releases to thousands of journalists and media outlets. PRNowe delivers your story to the right audience at the right time.',
+      openGraphTitle: 'PRNowe — Press Release Distribution',
       openGraphDescription:
-        'A simple publishing template for updates, announcements, and readable article pages.',
-      keywords: ['newsroom posts', 'latest updates', 'announcements', 'press articles'],
+        'Reach journalists, newsrooms, and media outlets worldwide with PRNowe press release distribution.',
+      keywords: [
+        'press release distribution',
+        'media outreach',
+        'PR wire',
+        'news distribution',
+        'press wire service',
+        'media relations',
+        'PRNowe',
+      ],
     },
-    introBadge: 'About',
-    introTitle: 'A quiet publishing template made for regular updates.',
+    introBadge: 'Built for Modern PR',
+    introTitle: 'A press wire built for agencies, brands, and communications teams.',
     introParagraphs: [
-      'This template is designed for sites that publish straightforward updates and want the homepage to behave like a clean front page rather than a product landing page.',
-      'Posts are visible immediately, archives stay easy to scan, and the reading page keeps the focus on the article itself.',
-      'The interface is intentionally simple so the site feels usable, familiar, and fast to update.',
+      'PRNowe is a modern press release distribution platform designed for PR professionals who need reliable reach, real analytics, and a workflow that doesn\'t slow them down.',
+      'Submit once and reach thousands of journalists, bloggers, and media outlets across technology, finance, health, lifestyle, and more.',
+      'From startups announcing their first funding round to enterprises managing global campaigns — PRNowe scales with your communications needs.',
     ],
-    sideBadge: 'What it prioritizes',
+    sideBadge: 'Why PRNowe',
     sidePoints: [
-      'Recent posts directly on the homepage.',
-      'Simple archive layout with sidebar search and recent items.',
-      'Readable article pages without comments or extra modules.',
-      'A publishing-first structure that stays easy to maintain.',
+      'Instant distribution to 5,000+ verified media contacts.',
+      'Real-time analytics: opens, pickups, and media reach.',
+      'Industry-specific targeting for maximum relevance.',
+      'SEO-optimized press release pages that rank on Google.',
     ],
     primaryLink: {
-      label: 'Open archive',
+      label: 'Submit a Press Release',
       href: '/updates',
     },
     secondaryLink: {
-      label: 'Contact desk',
-      href: '/contact',
+      label: 'View Pricing',
+      href: '/pricing',
     },
   },
   cta: {
-    badge: 'Get in touch',
-    title: 'Use this template when publishing regular updates matters more than visual effects.',
+    badge: 'Get Started Today',
+    title: 'Ready to get your story in front of the right journalists?',
     description:
-      'A straightforward layout for announcements, media coverage, partner updates, and newsroom-style content.',
+      'Join thousands of PR professionals who trust PRNowe to distribute their press releases and grow their media presence.',
     primaryCta: {
-      label: 'Contact us',
-      href: '/contact',
-    },
-    secondaryCta: {
-      label: 'View archive',
+      label: 'Submit a Press Release',
       href: '/updates',
     },
+    secondaryCta: {
+      label: 'Contact Us',
+      href: '/contact',
+    },
   },
-  taskSectionHeading: 'Latest posts',
-  taskSectionDescriptionSuffix: 'Read the newest published updates.',
+  taskSectionHeading: 'Latest Press Releases',
+  taskSectionDescriptionSuffix: 'Browse the most recent press releases and media announcements.',
 } as const
 
 export const taskPageMetadata: Record<Exclude<TaskKey, 'comment' | 'org' | 'social'>, { title: string; description: string }> = {
   article: {
     title: 'Articles',
-    description: 'Read the latest posts and long-form updates.',
+    description: 'Read the latest articles and editorial coverage.',
   },
   listing: {
     title: 'Listings',
-    description: 'Explore listings and directory-style entries.',
+    description: 'Explore business listings and directory entries.',
   },
   classified: {
     title: 'Classifieds',
@@ -108,8 +116,8 @@ export const taskPageMetadata: Record<Exclude<TaskKey, 'comment' | 'org' | 'soci
     description: 'Open PDFs and downloadable files.',
   },
   mediaDistribution: {
-    title: 'Latest updates',
-    description: 'Read the latest published updates and announcements.',
+    title: 'Press Releases',
+    description: 'Browse the latest press releases and media announcements from companies worldwide.',
   },
 }
 
@@ -128,13 +136,14 @@ export const taskIntroCopy: Record<
   comment: { title: 'Comments', paragraphs: ['Commentary and response posts.'], links: [{ label: 'Home', href: '/' }] },
   org: { title: 'Organizations', paragraphs: ['Organization pages and entities.'], links: [{ label: 'Home', href: '/' }] },
   mediaDistribution: {
-    title: 'Latest updates',
+    title: 'Press Releases',
     paragraphs: [
-      'This archive is designed for straightforward publishing: regular updates, announcements, and media-style posts presented in a clean reading format.',
-      'The layout stays simple so visitors can scan headlines quickly, open stories easily, and move through the archive without distraction.',
+      'Browse the latest press releases distributed through PRNowe. From product launches and funding announcements to executive appointments and industry research — find the news that matters to your sector.',
+      'Use the category filters to narrow by industry. Each press release includes full distribution details, media pickup data, and direct contact information for the issuing organization.',
     ],
     links: [
       { label: 'Home', href: '/' },
+      { label: 'Submit a Release', href: '/register' },
       { label: 'Contact', href: '/contact' },
     ],
   },
