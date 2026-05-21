@@ -25,8 +25,7 @@ const footerSections = [
   {
     heading: 'Resources',
     links: [
-      { label: 'Latest News', href: '/press-release' },
-      { label: 'Pricing', href: '/pricing' },
+      { label: 'Latest News', href: '/updates' },
       { label: 'Search', href: '/search' },
     ],
   },

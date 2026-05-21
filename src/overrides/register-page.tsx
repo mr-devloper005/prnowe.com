@@ -1,5 +1,3 @@
-'use client'
-
 import Link from 'next/link'
 import { Radio, CheckCircle2, ArrowRight } from 'lucide-react'
 import { NavbarShell } from '@/components/shared/navbar-shell'
