@@ -1,11 +1,8 @@
 import Link from 'next/link'
 import { Twitter, Linkedin, Facebook } from 'lucide-react'
 import { SITE_CONFIG } from '@/lib/site-config'
-import { fetchTaskPosts } from '@/lib/task-data'
-import { CATEGORY_OPTIONS, normalizeCategory } from '@/lib/categories'
 
 export const FOOTER_OVERRIDE_ENABLED = true
-
 
 const socialLinks = [
   { label: 'Twitter', href: 'https://twitter.com', icon: Twitter },
@@ -15,54 +12,39 @@ const socialLinks = [
 
 const footerSections = [
   {
-    heading: 'Company',
+    heading: 'Press Releases',
     links: [
-      { label: 'About', href: '/about' },
-      { label: 'Contact', href: '/contact' },
-      { label: 'Press', href: '/press-release' },
+      { label: 'Submit Press Release', href: '/register' },
+      { label: 'Browse Press Releases', href: '/updates' },
+      { label: 'Distribution Network', href: '/about' },
     ],
   },
   {
     heading: 'Resources',
     links: [
-      { label: 'Latest News', href: '/press-release' },
-      { label: 'Pricing', href: '/pricing' },
+      { label: 'For Journalists', href: '/updates' },
+      { label: 'Help Center', href: '/help' },
       { label: 'Search', href: '/search' },
+    ],
+  },
+  {
+    heading: 'Company',
+    links: [
+      { label: 'About PRNowe', href: '/about' },
+      { label: 'Contact Us', href: '/contact' },
     ],
   },
   {
     heading: 'Legal',
     links: [
-      { label: 'Privacy', href: '/privacy' },
-      { label: 'Terms', href: '/terms' },
-      { label: 'Cookies', href: '/cookies' },
+      { label: 'Privacy Policy', href: '/privacy' },
+      { label: 'Terms of Service', href: '/terms' },
+      { label: 'Cookie Policy', href: '/cookies' },
     ],
   },
 ]
 
-const getCategoryLabel = (value: string) => {
-  const normalized = normalizeCategory(value)
-  return CATEGORY_OPTIONS.find((item) => item.slug === normalized)?.name || value
-}
-
-
-export async function FooterOverride() {
-  const posts = await fetchTaskPosts('mediaDistribution', 200, { allowMockFallback: false })
-  const categories = Array.from(
-    new Map(
-      posts
-        .map((post) => {
-          const content = post.content && typeof post.content === 'object' ? (post.content as Record<string, unknown>) : {}
-          const raw = typeof content.category === 'string' ? content.category.trim() : ''
-          if (!raw) return null
-          const slug = normalizeCategory(raw)
-          return { slug, name: getCategoryLabel(raw) }
-        })
-        .filter((item): item is { slug: string; name: string } => Boolean(item))
-        .map((item) => [item.slug, item])
-    ).values()
-  ).slice(0, 8)
-
+export function FooterOverride() {
   return (
     <footer className="border-t border-slate-200 bg-[#0f0a1a] text-white">
       {/* Top CTA strip */}
@@ -98,14 +80,11 @@ export async function FooterOverride() {
       {/* Main footer grid */}
       <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
         <div className="grid gap-10 lg:grid-cols-[1.4fr_1fr_1fr_1fr_1fr]">
+
           {/* Brand column */}
           <div>
             <Link href="/" className="flex items-center">
-              <img
-                src="/logo.png"
-                alt="PRNowe"
-                className="h-10 w-auto object-contain"
-              />
+              <img src="/logo.png" alt="PRNowe" className="h-10 w-auto object-contain" />
             </Link>
             <p className="mt-4 max-w-xs text-sm leading-7 text-slate-400">
               The modern press release distribution platform trusted by PR professionals, agencies, and communications teams worldwide.
@@ -124,7 +103,6 @@ export async function FooterOverride() {
                 </a>
               ))}
             </div>
-
           </div>
 
           {/* Link columns */}
@@ -135,7 +113,7 @@ export async function FooterOverride() {
               </h3>
               <ul className="mt-4 space-y-3">
                 {section.links.map((link) => (
-                  <li key={`${section.heading}__${link.href}__${link.label}`}>
+                  <li key={`${section.heading}__${link.label}`}>
                     <Link
                       href={link.href}
                       className="text-sm text-slate-300 transition-colors hover:text-white"
@@ -160,24 +138,6 @@ export async function FooterOverride() {
             <Link href="/cookies" className="hover:text-white transition-colors">Cookies</Link>
           </div>
         </div>
-
-        {categories.length ? (
-          <div className="mt-8 border-t border-current/10 pt-6">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] opacity-70">Categories</p>
-            <div className="mt-3 flex flex-wrap gap-3 text-sm">
-              {categories.map((category) => (
-                <Link
-                  key={category.slug}
-                  href={`/updates?category=${category.slug}`}
-                  className="opacity-80 underline-offset-4 transition hover:opacity-100 hover:underline"
-                >
-                  {category.name}
-                </Link>
-              ))}
-            </div>
-          </div>
-        ) : null}
-
       </div>
     </footer>
   )

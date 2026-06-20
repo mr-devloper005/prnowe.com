@@ -4,78 +4,126 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Search, Menu, X } from 'lucide-react'
-import { SITE_CONFIG } from '@/lib/site-config'
 
 export const NAVBAR_OVERRIDE_ENABLED = true
 
-const utilityLinks = [
-  { label: 'About Us', href: '/about' },
-  { label: 'Terms of Service', href: '/terms' },
-  { label: 'Privacy Policy', href: '/privacy' },
-  { label: 'Contact Us', href: '/contact' },
+const navLinks = [
+  { label: 'Press Releases', href: '/updates' },
+  { label: 'About', href: '/about' },
+  { label: 'Contact', href: '/contact' },
 ]
 
 export function NavbarOverride() {
-  const pathname = usePathname()
   const [mobileOpen, setMobileOpen] = useState(false)
+  const pathname = usePathname()
 
   return (
-    <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/95 shadow-sm backdrop-blur">
-      <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
-        <Link href="/" className="group flex items-center gap-3" aria-label="Go home">
-          <span className="grid h-11 w-11 place-items-center rounded-2xl bg-[#0f5132] text-sm font-black text-white shadow-lg shadow-emerald-900/20">
-            PR
-          </span>
-          <span className="leading-tight">
-            <span className="block font-serif text-2xl font-black tracking-tight text-slate-950">{SITE_CONFIG.name}</span>
-            <span className="block text-[11px] font-bold uppercase tracking-[0.28em] text-emerald-700">Newswire</span>
-          </span>
+    <header className="sticky top-0 z-50 w-full border-b border-slate-100 bg-white shadow-sm">
+      <nav className="mx-auto flex h-[68px] max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
+
+        {/* Logo */}
+        <Link href="/" className="flex shrink-0 items-center">
+          <img
+            src="/logo.png"
+            alt="PRNowe"
+            className="h-9 w-auto object-contain"
+          />
         </Link>
 
-        <div className="hidden items-center gap-7 lg:flex">
-          <Link href="/" className={navLink(pathname === '/')}>Home</Link>
-          <Link href="/press-release" className={navLink(pathname.startsWith('/press-release'))}>Press Releases</Link>
-          <Link href="/about" className={navLink(pathname === '/about')}>About</Link>
-          <Link href="/contact" className="rounded-full bg-[#0f5132] px-5 py-2 text-sm font-black text-white shadow-lg shadow-emerald-900/20 transition hover:bg-[#0b3f27]">
-            Submit News
-          </Link>
+        {/* Desktop nav links */}
+        <div className="hidden items-center gap-1 lg:flex">
+          {navLinks.map((link) => {
+            const active = pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href))
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
+                  active
+                    ? 'bg-[#640D5F]/8 text-[#640D5F]'
+                    : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
+                }`}
+              >
+                {link.label}
+              </Link>
+            )
+          })}
         </div>
 
-        <button
-          type="button"
-          className="grid h-11 w-11 place-items-center rounded-full border border-slate-200 text-slate-900 lg:hidden"
-          onClick={() => setMobileOpen((value) => !value)}
-          aria-label="Toggle navigation"
-        >
-          {mobileOpen ? <X size={20} /> : <Menu size={20} />}
-        </button>
+        {/* Right side */}
+        <div className="flex items-center gap-2">
+          <Link
+            href="/search"
+            className="hidden rounded-lg p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition-colors md:flex"
+            aria-label="Search"
+          >
+            <Search className="h-4.5 w-4.5" />
+          </Link>
+
+          <Link
+            href="/login"
+            className="hidden rounded-lg px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-colors md:inline-flex"
+          >
+            Sign In
+          </Link>
+
+          <Link
+            href="/register"
+            className="hidden rounded-lg px-5 py-2 text-sm font-semibold text-white shadow-sm transition-all hover:opacity-90 md:inline-flex"
+            style={{ background: 'linear-gradient(135deg, #D91656, #EB5B00)' }}
+          >
+            Submit Release
+          </Link>
+
+          <button
+            className="rounded-lg p-2 text-slate-500 hover:bg-slate-100 transition-colors lg:hidden"
+            onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label="Toggle menu"
+          >
+            {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
+        </div>
       </nav>
 
-      <div className="border-t border-slate-100 bg-[#f7fbf8]">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 overflow-x-auto px-4 py-2 text-xs font-bold uppercase tracking-[0.18em] text-slate-500 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-5">
-            <Link href="/" className="hover:text-emerald-700">Home</Link>
-            <Link href="/press-release" className="hover:text-emerald-700">Press releases</Link>
-            <Link href="/contact" className="hover:text-emerald-700">Contact</Link>
+      {/* Mobile menu */}
+      {mobileOpen && (
+        <div className="border-t border-slate-100 bg-white px-4 pb-5 pt-3 lg:hidden">
+          <div className="space-y-1">
+            {navLinks.map((link) => {
+              const active = pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href))
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setMobileOpen(false)}
+                  className={`block rounded-xl px-4 py-3 text-sm font-medium transition-colors ${
+                    active ? 'bg-purple-50 text-[#640D5F]' : 'text-slate-700 hover:bg-slate-50'
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              )
+            })}
           </div>
-          <Search className="hidden h-4 w-4 shrink-0 text-emerald-700 sm:block" />
-        </div>
-      </div>
-
-      {mobileOpen ? (
-        <div className="border-t border-slate-100 bg-white px-4 py-4 shadow-xl lg:hidden">
-          <div className="flex flex-col gap-3 text-sm font-bold text-slate-700">
-            <Link href="/" onClick={() => setMobileOpen(false)}>Home</Link>
-            <Link href="/press-release" onClick={() => setMobileOpen(false)}>Press Releases</Link>
-            <Link href="/about" onClick={() => setMobileOpen(false)}>About</Link>
-            <Link href="/contact" onClick={() => setMobileOpen(false)}>Submit News</Link>
+          <div className="mt-4 flex flex-col gap-2 border-t border-slate-100 pt-4">
+            <Link
+              href="/login"
+              onClick={() => setMobileOpen(false)}
+              className="block rounded-xl border border-slate-200 px-4 py-3 text-center text-sm font-medium text-slate-700"
+            >
+              Sign In
+            </Link>
+            <Link
+              href="/register"
+              onClick={() => setMobileOpen(false)}
+              className="block rounded-xl px-4 py-3 text-center text-sm font-semibold text-white"
+              style={{ background: 'linear-gradient(135deg, #D91656, #EB5B00)' }}
+            >
+              Submit a Press Release
+            </Link>
           </div>
         </div>
-      ) : null}
+      )}
     </header>
   )
-}
-
-function navLink(active: boolean) {
-  return `text-sm font-black uppercase tracking-[0.18em] transition ${active ? 'text-emerald-700' : 'text-slate-600 hover:text-emerald-700'}`
 }

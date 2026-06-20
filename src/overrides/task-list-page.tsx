@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { ArrowRight, Radio, Search, Calendar, User } from 'lucide-react'
+import { ArrowRight, Radio, Search, User } from 'lucide-react'
 import { NavbarShell } from '@/components/shared/navbar-shell'
 import { Footer } from '@/components/shared/footer'
 import { fetchTaskPosts } from '@/lib/task-data'
@@ -91,17 +91,13 @@ export async function TaskListPageOverride(_: { task: TaskKey; category?: string
                   <div className="flex flex-1 flex-col gap-4 p-6 sm:flex-row sm:items-start">
                     {/* Content */}
                     <div className="flex-1 min-w-0">
-                      {/* Category + date row */}
+                      {/* Category badge */}
                       <div className="flex flex-wrap items-center gap-2">
                         <span
                           className="rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white"
                           style={{ background: 'linear-gradient(135deg, #640D5F, #D91656)' }}
                         >
                           {getCategory(post)}
-                        </span>
-                        <span className="flex items-center gap-1 text-xs text-slate-400">
-                          <Calendar className="h-3 w-3" />
-                          {formatDate(post.publishedAt)}
                         </span>
                         {post.authorName && (
                           <span className="flex items-center gap-1 text-xs text-slate-400">
@@ -190,7 +186,6 @@ export async function TaskListPageOverride(_: { task: TaskKey; category?: string
                       <p className="text-sm font-medium leading-snug text-slate-700 group-hover:text-[#640D5F] transition-colors line-clamp-2">
                         {post.title}
                       </p>
-                      <p className="mt-1 text-xs text-slate-400">{formatDate(post.publishedAt)}</p>
                     </div>
                   </Link>
                 ))}
