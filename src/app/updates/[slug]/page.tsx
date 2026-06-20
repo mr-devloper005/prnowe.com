@@ -3,6 +3,7 @@ import { buildPostMetadata, buildTaskMetadata } from '@/lib/seo'
 import { fetchTaskPostBySlug, fetchTaskPosts } from '@/lib/task-data'
 
 export const revalidate = 3
+export const dynamicParams = true
 
 export async function generateStaticParams() {
   const posts = await fetchTaskPosts('mediaDistribution', 50)

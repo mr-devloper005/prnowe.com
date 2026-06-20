@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { Facebook, Linkedin, Link2, Mail, Twitter } from 'lucide-react'
+import { Facebook, Linkedin, Mail, Twitter } from 'lucide-react'
 import { NavbarShell } from '@/components/shared/navbar-shell'
 import { Footer } from '@/components/shared/footer'
 import { ContentImage } from '@/components/shared/content-image'
@@ -71,98 +71,145 @@ export async function TaskDetailPageOverride({ slug }: { task: TaskKey; slug: st
     : ''
 
   return (
-    <div className="min-h-screen bg-white text-foreground">
+    <div className="min-h-screen bg-white text-slate-900">
       <NavbarShell />
 
+      {/* ── Hero header ── */}
+      <div
+        className="relative overflow-hidden py-14"
+        style={{ background: 'linear-gradient(135deg, #640D5F 0%, #8B1A6B 30%, #D91656 65%, #EB5B00 100%)' }}
+      >
+        <div
+          className="pointer-events-none absolute inset-0 opacity-10"
+          style={{
+            backgroundImage: 'linear-gradient(rgba(255,255,255,0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.15) 1px, transparent 1px)',
+            backgroundSize: '50px 50px',
+          }}
+        />
+        <div className="relative mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+          <nav className="flex flex-wrap items-center gap-2 text-sm text-white/60">
+            <Link href="/" className="hover:text-white transition-colors">Home</Link>
+            <span>/</span>
+            <Link href={archivePath} className="hover:text-white transition-colors">Press Releases</Link>
+            <span>/</span>
+            <Link href={`${archivePath}?category=${categorySlug}`} className="hover:text-white transition-colors">{categoryLabel}</Link>
+          </nav>
+          <h1
+            className="mt-4 text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-5xl"
+            style={{ fontFamily: 'var(--font-display)', letterSpacing: '-0.03em' }}
+          >
+            {post.title}
+          </h1>
+          {date && (
+            <p className="mt-4 text-sm text-white/60">{date}</p>
+          )}
+        </div>
+        <div className="absolute bottom-0 left-0 right-0 h-8 overflow-hidden">
+          <svg viewBox="0 0 1440 32" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full" preserveAspectRatio="none">
+            <path d="M0 32L1440 32L1440 10C1200 28 960 0 720 10C480 20 240 0 0 10L0 32Z" fill="white" />
+          </svg>
+        </div>
+      </div>
+
       <article className="mx-auto max-w-6xl px-4 pb-16 pt-8 sm:px-6 lg:pt-12">
-        <nav className="text-xs font-medium text-muted-foreground">
-          <Link href="/" className="hover:text-primary">
-            Home
-          </Link>
-          <span className="mx-2 opacity-40">/</span>
-          <Link href={archivePath} className="hover:text-primary">
-            Press releases
-          </Link>
-          <span className="mx-2 opacity-40">/</span>
-          <Link href={`${archivePath}?category=${categorySlug}`} className="hover:text-primary">
-            {categoryLabel}
-          </Link>
-        </nav>
-
-        <div className="mt-8 grid gap-12 lg:grid-cols-[minmax(0,1fr)_300px] lg:gap-14">
+        <div className="mt-2 grid gap-12 lg:grid-cols-[minmax(0,1fr)_300px] lg:gap-14">
           <div className="min-w-0">
-            <h1 className="font-[family-name:var(--font-display)] text-3xl font-semibold leading-[1.12] tracking-[-0.03em] text-foreground sm:text-4xl lg:text-[2.35rem]">
-              {post.title}
-            </h1>
 
-            {date ? (
-              <div className="mt-5 text-sm text-muted-foreground">
-                <span>{date}</span>
-              </div>
-            ) : null}
-
-            <div className="mt-6 flex flex-wrap gap-2">
+            {/* Share buttons */}
+            <div className="flex flex-wrap gap-2">
               <a
                 href={`https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-white text-foreground shadow-sm transition hover:border-primary/40 hover:bg-muted"
+                className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 text-xs font-medium text-slate-600 shadow-sm transition hover:border-purple-200 hover:text-[#640D5F]"
                 aria-label="Share on X"
               >
-                <Twitter className="h-4 w-4" />
+                <Twitter className="h-3.5 w-3.5" /> Twitter
               </a>
               <a
                 href={`https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-white text-foreground shadow-sm transition hover:border-primary/40 hover:bg-muted"
+                className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 text-xs font-medium text-slate-600 shadow-sm transition hover:border-purple-200 hover:text-[#640D5F]"
                 aria-label="Share on LinkedIn"
               >
-                <Linkedin className="h-4 w-4" />
+                <Linkedin className="h-3.5 w-3.5" /> LinkedIn
               </a>
               <a
                 href={`https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-white text-foreground shadow-sm transition hover:border-primary/40 hover:bg-muted"
+                className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 text-xs font-medium text-slate-600 shadow-sm transition hover:border-purple-200 hover:text-[#640D5F]"
                 aria-label="Share on Facebook"
               >
-                <Facebook className="h-4 w-4" />
+                <Facebook className="h-3.5 w-3.5" /> Facebook
               </a>
               <a
                 href={`mailto:?subject=${shareText}&body=${shareUrl}`}
-                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-white text-foreground shadow-sm transition hover:border-primary/40 hover:bg-muted"
+                className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 text-xs font-medium text-slate-600 shadow-sm transition hover:border-purple-200 hover:text-[#640D5F]"
                 aria-label="Email this release"
               >
-                <Mail className="h-4 w-4" />
+                <Mail className="h-3.5 w-3.5" /> Email
               </a>
-              <span className="inline-flex items-center gap-1 rounded-full border border-dashed border-border px-3 py-2 text-xs text-muted-foreground">
-                <Link2 className="h-3.5 w-3.5" />
-                {pageUrl.replace(/^https?:\/\//, '')}
-              </span>
             </div>
 
             {hero ? (
-              <div className="relative mt-10 aspect-[16/9] w-full overflow-hidden rounded-[1.25rem] border border-border bg-muted shadow-sm">
+              <div className="relative mt-8 aspect-[16/9] w-full overflow-hidden rounded-2xl border border-slate-100 bg-slate-50 shadow-sm">
                 <ContentImage src={hero} alt={post.title} fill className="object-cover" priority />
               </div>
             ) : null}
 
-            <RichContent html={html} className="article-content mt-10 max-w-none text-[1.05rem] leading-[1.75] text-foreground/90" />
+            <div className="prose prose-slate prose-lg mt-8 max-w-none
+              prose-headings:font-bold prose-headings:text-[#640D5F]
+              prose-a:text-[#D91656] prose-a:no-underline hover:prose-a:underline
+              prose-strong:text-slate-900
+              prose-blockquote:border-l-[#D91656] prose-blockquote:bg-purple-50 prose-blockquote:py-1 prose-blockquote:px-4 prose-blockquote:rounded-r-lg
+            ">
+              <RichContent html={html} />
+            </div>
           </div>
 
+          {/* Sidebar */}
           <aside className="space-y-6 lg:pt-2">
-            <div className="rounded-[1.25rem] border border-border bg-white p-6 shadow-sm">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">More releases</p>
-              <ul className="mt-4 space-y-4">
+            <div className="overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm">
+              <div
+                className="px-5 py-3 text-xs font-bold uppercase tracking-[0.16em] text-white"
+                style={{ background: 'linear-gradient(135deg, #640D5F, #D91656)' }}
+              >
+                More Releases
+              </div>
+              <div className="divide-y divide-slate-100 p-2">
                 {related.map((item) => (
-                  <li key={item.id}>
-                    <Link href={buildPostUrl('mediaDistribution', item.slug)} className="block text-sm font-semibold leading-snug text-foreground hover:text-primary">
+                  <Link
+                    key={item.id}
+                    href={buildPostUrl('mediaDistribution', item.slug)}
+                    className="group flex gap-3 rounded-xl p-3 transition-colors hover:bg-purple-50"
+                  >
+                    <div
+                      className="mt-1.5 h-2 w-2 shrink-0 rounded-full"
+                      style={{ background: 'linear-gradient(135deg, #640D5F, #D91656)' }}
+                    />
+                    <p className="text-sm font-medium leading-snug text-slate-700 group-hover:text-[#640D5F] transition-colors line-clamp-3">
                       {item.title}
-                    </Link>
-                  </li>
+                    </p>
+                  </Link>
                 ))}
-              </ul>
+              </div>
+            </div>
+
+            {/* Submit CTA */}
+            <div
+              className="overflow-hidden rounded-2xl p-6 text-center"
+              style={{ background: 'linear-gradient(135deg, #640D5F 0%, #D91656 60%, #EB5B00 100%)' }}
+            >
+              <p className="font-bold text-white">Distribute Your Release</p>
+              <p className="mt-2 text-xs text-white/70">Reach 5,000+ journalists instantly.</p>
+              <Link
+                href="/register"
+                className="mt-4 inline-flex items-center gap-1.5 rounded-lg bg-white px-5 py-2.5 text-sm font-semibold text-[#640D5F] transition-all hover:bg-[#FFB200] hover:text-white"
+              >
+                Submit a Release
+              </Link>
             </div>
           </aside>
         </div>
